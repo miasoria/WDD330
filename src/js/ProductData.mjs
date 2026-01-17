@@ -6,6 +6,7 @@ function convertToJson(res) {
   }
 }
 
+
 export default class ProductData {
   constructor(category) {
     this.category = category;
