@@ -1,5 +1,6 @@
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
+
 export default class ProductDetails {
 
     constructor(productId, dataSource) {
@@ -34,6 +35,7 @@ function productDetailsTemplate(product) {
     const productImage = document.getElementById('productImage');
     productImage.src = product.Image;
     productImage.alt = product.NameWithoutBrand;
+
 
     document.getElementById('productPrice').textContent = product.FinalPrice;
     document.getElementById('productColor').textContent = product.Colors[0].ColorName;
