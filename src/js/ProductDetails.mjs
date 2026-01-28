@@ -1,45 +1,85 @@
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
+
+import ProductData from "./ProductData.mjs";
+import { getParam } from "./utils.mjs";
+
+const category = getParam("category"); 
+const productId = getParam("product"); 
+
+if (!category || !productId) {
+  console.error("Category or product ID missing in URL");
+}
+
+
+const dataSource = new ProductData(category);
 
 export default class ProductDetails {
+  constructor(productId, dataSource) {
+    this.productId = productId;
+    this.dataSource = dataSource;
+    this.product = null;
+  }
 
-    constructor(productId, dataSource) {
-        this.productId = productId;
-        this.product = {};
-        this.dataSource = dataSource;
+  async init() {
+    try {
+      this.product = await this.dataSource.findProductById(this.productId);
+
+      if (!this.product) {
+        console.error(`Product "${this.productId}" not found in category "${category}"`);
+        return;
+      }
+
+      this.renderProductDetails();
+      this.setupCartButton();
+    } catch (err) {
+      console.error(`Failed to load product "${this.productId}" in category "${category}":`, err);
+    }
+  }
+
+  setupCartButton() {
+    const btn = document.getElementById("addToCart");
+    if (btn) {
+      btn.addEventListener("click", () => {
+        const cart = JSON.parse(localStorage.getItem("so-cart")) || [];
+        const existing = cart.find((item) => item.Id === this.product.Id);
+        if (existing) existing.quantity += 1;
+        else cart.push({ ...this.product, quantity: 1 });
+        localStorage.setItem("so-cart", JSON.stringify(cart));
+        alert(`${this.product.NameWithoutBrand} added to cart!`);
+      });
+    }
+  }
+
+  renderProductDetails() {
+    if (!this.product) return;
+
+    const p = this.product;
+
+    const brandEl = document.getElementById("productBrand");
+    if (brandEl) brandEl.textContent = p.Brand?.Name || "Unknown Brand";
+
+    const nameEl = document.getElementById("productName");
+    if (nameEl) nameEl.textContent = p.NameWithoutBrand;
+
+    const imgEl = document.getElementById("productImage");
+    if (imgEl) {
+      imgEl.src = p.Images?.PrimaryLarge || p.Image || "";
+      imgEl.alt = p.NameWithoutBrand;
     }
 
-    async init() {
-        this.product = await this.dataSource.findProductById(this.productId);
-        this.renderProductDetails();
-        document
-            .getElementById('addToCart')
-            .addEventListener('click', this.addProductToCart.bind(this));
-    }
+    const priceEl = document.getElementById("productPrice");
+    if (priceEl) priceEl.textContent = `$${p.FinalPrice}`;
 
-    addProductToCart() {
-        const cartItems = getLocalStorage("so-cart") || [];
-        cartItems.push(this.product);
-        setLocalStorage("so-cart", cartItems);
-    }
+    const colorEl = document.getElementById("productColor");
+    if (colorEl) colorEl.textContent = p.Colors?.[0]?.ColorName || "N/A";
 
-    renderProductDetails() {
-        productDetailsTemplate(this.product);
-    }
+    const descEl = document.getElementById("productDesc");
+    if (descEl) descEl.innerHTML = p.DescriptionHtmlSimple || "";
+  }
 }
 
-function productDetailsTemplate(product) {
-    document.querySelector('h2').textContent = product.Brand.Name;
-    document.querySelector('h3').textContent = product.NameWithoutBrand;
-
-    const productImage = document.getElementById('productImage');
-    productImage.src = product.Image;
-    productImage.alt = product.NameWithoutBrand;
+// Initialize
+const productPage = new ProductDetails(productId, dataSource);
+productPage.init();
 
 
-    document.getElementById('productPrice').textContent = product.FinalPrice;
-    document.getElementById('productColor').textContent = product.Colors[0].ColorName;
-    document.getElementById('productDesc').innerHTML = product.DescriptionHtmlSimple;
-
-    document.getElementById('addToCart').dataset.id = product.Id;
-}
