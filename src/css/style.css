@@ -278,3 +278,22 @@ footer {
   padding: 4px 6px;
   border-radius: 4px;
 }
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.category-card {
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.category-card img {
+  width: 80px;
+  height: auto;
+  display: block;
+  margin: 0 auto 0.5rem;
+}
