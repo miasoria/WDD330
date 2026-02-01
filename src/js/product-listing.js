@@ -1,5 +1,5 @@
 import ProductList from "../js/productList.mjs";
-import ProductData from "./ProductData.mjs";
+import ExternalServices from "./ExternalServices.mjs";
 import { getParam } from "./utils.mjs";
 
 window.addEventListener("DOMContentLoaded", async () => {
@@ -17,7 +17,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  const dataSource = new ProductData(category);
+  const dataSource = new ExternalServices(category);
   const productList = new ProductList(category, dataSource, listElement, titleElement);
 
   await productList.init();

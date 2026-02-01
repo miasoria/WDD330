@@ -8,7 +8,8 @@
 
     <title>Sleep Outside | Checkout</title>
     <script type="module" src="../js/main.js" defer></script>
-    <link rel="stylesheet" href="css/style.css" />
+    <script type="module" src="./checkout.js" defer></script>
+    <link rel="stylesheet" href="/css/style.css" />
   </head>
 
   <body>
@@ -18,6 +19,61 @@
     <main class="divider">
       <section class="products">
         <h2>Review & Place your Order</h2>
+      </section>
+      <form id="checkout-form">
+        <fieldset>
+          <legend>Customer Information</legend>
+
+          <label>First Name
+            <input type="text" name="firstName" required />
+          </label>
+
+          <label>Last Name
+            <input type="text" name="lastName" required />
+          </label>
+
+          <label>Street Address
+            <input type="text" name="street" required />
+          </label>
+
+          <label>City
+            <input type="text" name="city" required />
+          </label>
+
+          <label>State
+            <input type="text" name="state" required />
+          </label>
+
+          <label>Zip Code
+            <input type="text" name="zip" id="zip" required />
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Payment</legend>
+
+          <label>Credit Card Number
+            <input type="text" required />
+          </label>
+
+          <label>Expiration Date
+            <input type="text" placeholder="MM/YY" required />
+          </label>
+
+          <label>Security Code
+            <input type="text" required />
+          </label>
+        </fieldset>
+
+        <button type="submit">Checkout</button>
+      </form>
+
+      <section class="order-summary">
+        <h2>Order Summary</h2>
+        <p>Subtotal: <span id="subtotal">$0.00</span></p>
+        <p>Tax: <span id="tax">$0.00</span></p>
+        <p>Shipping: <span id="shipping">$0.00</span></p>
+        <p><strong>Total: <span id="orderTotal">$0.00</span></strong></p>
       </section>
     </main>
 
