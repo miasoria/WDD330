@@ -57,7 +57,7 @@ export default class ProductList {
         product.FinalPrice != null
     );
 
-    
+    // render using template
     renderListWithTemplate(
       (product) => productCardTemplate(product, this.category),
       this.listElement,
