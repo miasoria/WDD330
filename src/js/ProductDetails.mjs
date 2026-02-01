@@ -1,6 +1,6 @@
 
 
-import ProductData from "./ProductData.mjs";
+import ExternalServices from "./ExternalServices.mjs";
 import { getParam } from "./utils.mjs";
 
 const category = getParam("category"); 
@@ -11,7 +11,7 @@ if (!category || !productId) {
 }
 
 
-const dataSource = new ProductData(category);
+const dataSource = new ExternalServices(category);
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
