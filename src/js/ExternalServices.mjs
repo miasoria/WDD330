@@ -13,7 +13,6 @@ export default class ExternalServices {
   }
 
   
-
   // Fetch product data from JSON file
   async getData() {
     if (!this.path) return [];
