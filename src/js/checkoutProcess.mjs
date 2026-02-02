@@ -1,5 +1,5 @@
 import { getLocalStorage } from "./utils.mjs";
-import ExternalServices from "./ExternalServices.mjs"; // renamed from ProductData
+import ExternalServices from "./ExternalServices.mjs";
 
 export default class CheckoutProcess {
   constructor(key, outputSelector) {
@@ -10,16 +10,15 @@ export default class CheckoutProcess {
     this.shipping = 0;
     this.tax = 0;
     this.orderTotal = 0;
+    this.services = new ExternalServices();
   }
 
-  
   init() {
     this.list = getLocalStorage(this.key) || [];
     this.calculateItemSubTotal();
     this.calculateOrderTotal();
   }
 
-  
   calculateItemSubTotal() {
     this.itemTotal = 0;
 
@@ -33,7 +32,6 @@ export default class CheckoutProcess {
     if (subtotalEl) subtotalEl.textContent = `$${this.itemTotal.toFixed(2)}`;
   }
 
-  
   calculateOrderTotal() {
     this.tax = this.itemTotal * 0.06;
 
@@ -45,7 +43,6 @@ export default class CheckoutProcess {
     this.displayOrderTotals();
   }
 
-  
   displayOrderTotals() {
     const taxEl = document.querySelector(`${this.outputSelector} #tax`);
     if (taxEl) taxEl.textContent = `$${this.tax.toFixed(2)}`;
@@ -57,7 +54,6 @@ export default class CheckoutProcess {
     if (totalEl) totalEl.textContent = `$${this.orderTotal.toFixed(2)}`;
   }
 
-  
   formDataToJSON(formElement) {
     const formData = new FormData(formElement);
     const convertedJSON = {};
@@ -67,7 +63,6 @@ export default class CheckoutProcess {
     return convertedJSON;
   }
 
- 
   packageItems(items) {
     return items.map((item) => ({
       id: item.Id,
@@ -77,14 +72,16 @@ export default class CheckoutProcess {
     }));
   }
 
-  
   checkout(formElement) {
     if (!formElement) return;
 
     formElement.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      
+      const isValid = formElement.checkValidity();
+      formElement.reportValidity();
+      if (!isValid) return;
+
       const orderData = this.formDataToJSON(formElement);
       orderData.orderDate = new Date().toISOString();
       orderData.items = this.packageItems(this.list);
@@ -93,13 +90,16 @@ export default class CheckoutProcess {
       orderData.shipping = this.shipping;
 
       try {
+        const response = await this.services.checkout(orderData);
+
        
-        const response = await ExternalServices.checkout(orderData);
-        console.log("Server response:", response);
-        alert("Order submitted successfully!");
+        localStorage.removeItem(this.key);
+        window.location.href = "/checkout/success.html";
+
       } catch (err) {
+        
         console.error("Checkout failed:", err);
-        alert("Failed to submit order. See console for details.");
+        alert("There was an error processing your order. Please try again.");
       }
     });
   }
