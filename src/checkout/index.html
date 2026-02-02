@@ -20,53 +20,127 @@
       <section class="products">
         <h2>Review & Place your Order</h2>
       </section>
-      <form id="checkout-form">
-        <fieldset>
-          <legend>Customer Information</legend>
 
-          <label>First Name
-            <input type="text" name="firstName" required />
-          </label>
+        <form id="checkout-form" novalidate>
+          <fieldset>
+            <legend>Customer Information</legend>
 
-          <label>Last Name
-            <input type="text" name="lastName" required />
-          </label>
+            <label>
+              First Name
+              <input
+                type="text"
+                name="firstName"
+                required
+                minlength="2"
+                autocomplete="given-name"/>
+            </label>
 
-          <label>Street Address
-            <input type="text" name="street" required />
-          </label>
+            <label>
+              Last Name
+              <input
+                type="text"
+                name="lastName"
+                required
+                minlength="2"
+                autocomplete="family-name"
+              />
+            </label>
 
-          <label>City
-            <input type="text" name="city" required />
-          </label>
+            <label>
+              Street Address
+              <input
+                type="text"
+                name="street"
+                required
+                autocomplete="street-address"
+              />
+            </label>
 
-          <label>State
-            <input type="text" name="state" required />
-          </label>
+            <label>
+              City
+              <input
+                type="text"
+                name="city"
+                required
+                autocomplete="address-level2"
+              />
+            </label>
 
-          <label>Zip Code
-            <input type="text" name="zip" id="zip" required />
-          </label>
-        </fieldset>
+            <label>
+              State
+              <input
+                type="text"
+                name="state"
+                required
+                minlength="2"
+                maxlength="2"
+                autocomplete="address-level1"
+                placeholder="CA"
+              />
+            </label>
 
-        <fieldset>
-          <legend>Payment</legend>
+            <label>
+              Zip Code
+              <input
+                type="text"
+                name="zip"
+                id="zip"
+                required
+                pattern="[0-9]{5}"
+                maxlength="5"
+                inputmode="numeric"
+                title="Enter a 5-digit ZIP code"
+                autocomplete="postal-code"
+              />
+            </label>
+          </fieldset>
 
-          <label>Credit Card Number
-            <input type="text" required />
-          </label>
+          <fieldset>
+            <legend>Payment</legend>
 
-          <label>Expiration Date
-            <input type="text" placeholder="MM/YY" required />
-          </label>
+            <label>
+              Credit Card Number
+              <input
+                type="text"
+                name="cardNumber"
+                required
+                pattern="[0-9]{16}"
+                maxlength="16"
+                inputmode="numeric"
+                placeholder="1234123412341234"
+                title="Enter a 16-digit card number"
+              />
+            </label>
 
-          <label>Security Code
-            <input type="text" required />
-          </label>
-        </fieldset>
+            <label>
+              Expiration Date
+              <input
+                type="text"
+                name="expiration"
+                required
+                pattern="(0[1-9]|1[0-2])\/[0-9]{2}"
+                placeholder="MM/YY"
+                title="Format: MM/YY"
+              />
+            </label>
 
-        <button type="submit">Checkout</button>
-      </form>
+            <label>
+              Security Code
+              <input
+                type="text"
+                name="securityCode"
+                required
+                pattern="[0-9]{3}"
+                maxlength="3"
+                inputmode="numeric"
+                placeholder="123"
+                title="3-digit security code"
+              />
+            </label>
+          </fieldset>
+
+          <button type="submit" id="checkoutSubmit">Checkout</button>
+        </form>
 
       <section class="order-summary">
         <h2>Order Summary</h2>
@@ -75,6 +149,7 @@
         <p>Shipping: <span id="shipping">$0.00</span></p>
         <p><strong>Total: <span id="orderTotal">$0.00</span></strong></p>
       </section>
+
     </main>
 
     <footer id="footer">&copy;NOT a real business</footer>
