@@ -9,6 +9,7 @@
 
 
   <script type="module" src="./js/main.js" defer></script>
+  <script type="module" src="./js/newsLetter.js" defer></script>
 
 </head>
 
@@ -55,13 +56,28 @@
     </a>
   </div>
 </section>
+         <section id="newsletter" class="newsletter">
+            <h2>Sign up for our Newsletter</h2>
+            <p>Get the latest updates and offers directly in your inbox!</p>
+            <form id="newsletter-form">
+              <label for="firstName">First Name:</label>
+              <input type="text" id="firstName" name="firstName" placeholder="John" required />
+
+              <label for="lastName">Last Name:</label>
+              <input type="text" id="lastName" name="lastName" placeholder="Doe" required />
+
+              <label for="newsletter-email">Email Address:</label>
+              <input type="email" id="newsletter-email" name="email" placeholder="you@example.com" required />
+
+              <button type="submit">Subscribe</button>
+            </form>
+          </section>
+
+  
 
     
   </main>
   <footer id="footer">
-    <!--<p>&copy;2025 ⛺ SleepOutside ⛺ WDD 330 ⛺ BYU-Idaho for BYU-Pathway
-      Worldwide Online
-    </p>-->
   </footer>
 </body>
 
