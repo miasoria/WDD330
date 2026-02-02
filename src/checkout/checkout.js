@@ -1,5 +1,5 @@
 
-import CheckoutProcess from "/js/CheckoutProcess.mjs";
+import CheckoutProcess from "../js/checkoutProcess.mjs";
 import ExternalServices from "/js/ExternalServices.mjs";
 
 
